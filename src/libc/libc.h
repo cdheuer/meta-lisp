@@ -11,4 +11,15 @@
 #	define strlen(str) __builtin_strlen((str))
 #endif
 
+typedef struct FILE FILE;
+FILE *fopen(char *path, char *mode);
+int fclose(FILE *stream);
+int fseek(FILE *stream, long offset, int whence);
+long ftell(FILE *stream);
+void rewind(FILE *stream);
+
+void *malloc(size_t size);
+void *realloc(void *ptr, size_t size);
+void free(void *ptr);
+
 #endif
