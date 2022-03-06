@@ -14,10 +14,17 @@ usage: ..."
 
 # START #######################################################################
 
-## Parse options
+## Get options
+
+# If no options, print help
+if [ ! "$1" ]; then
+	echo $HELP
+	exit 0
+fi
+
 debug=false
 release=false
-while getopts ":hdr" option; do
+while getopts ":hdrso:" option; do
 	case $option in
 		h)
 			echo $HELP
@@ -50,25 +57,48 @@ fi
 ## Get platform
 platform=$(uname)
 cc=
+static_cmd=
+static_ext=
+static_out=
+shared_cmd=
+shared_ext=
+shared_flag=
 if [ "$platform" = "$MACOS_PLATFORM" ]; then
 	cc=$CLANG_CC
+	static_cmd="ar rcs"
+	static_ext="a"
+	static_out=""
+	shared_cmd="$cc -shared"
+	shared_ext="dylib"
+	shared_out="-o"
 fi
 
 ## Get compiler specific flags
 cflags=
-outflag=
+cdebug_flags=
+crealease_flags=
 if [ "$cc" = "$CLANG_CC" ]; then
-	if [ "$debug" = true ]; then
-		cflags="-g -c"
-	elif [ "$release" = true ]; then
-		cflags="-O3 -c"
-	fi
+	cdebug_flags="-g -c"
+	crelease_flags="-O3 -c"
 
-	outflag="-o"
+	if [ "$debug" = true ]; then
+		cflags=$cdebug_flags
+	elif [ "$release" = true ]; then
+		cflags=$crelease_flags
+	fi
 fi
 
+## Echo all variables for 'make'
 options="\
 CC=\"$cc\" \
-CFLAGS=\"$cflags\""
+CFLAGS=\"$cflags\" \
+STATIC_EXT=\"$static_ext\" \
+SHARED_EXT=\"$shared_ext\" \
+CDEBUG_FLAGS=\"$cdebug_flags\" \
+CRELEASE_FLAGS=\"$crelease_flags\" \
+SHARED_CMD=\"$shared_cmd\" \
+STATIC_CMD=\"$static_cmd\" \
+SHARED_OUT=\"$shared_out\" \
+STATIC_OUT=\"$static_out\""
 
 echo $options
