@@ -67,11 +67,8 @@ if [ "$cc" = "$CLANG_CC" ]; then
 	outflag="-o"
 fi
 
-## Output variables as options for 'make'
 options="\
-\"CC=$cc\" \
-\"CFLAGS=$cflags\"
-\"OUTFLAG=$outflag\""
+CC=\"$cc\" \
+CFLAGS=\"$cflags\""
 
 echo $options
-
