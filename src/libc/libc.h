@@ -12,7 +12,7 @@
 #endif
 
 typedef struct FILE FILE;
-FILE *fopen(char *path, char *mode);
+FILE *fopen(const char *path, const char *mode);
 int fclose(FILE *stream);
 int fseek(FILE *stream, long offset, int whence);
 long ftell(FILE *stream);
@@ -22,6 +22,6 @@ void *malloc(size_t size);
 void *realloc(void *ptr, size_t size);
 void free(void *ptr);
 
-int printf(char *fmt, ...);
+int printf(const char *fmt, ...);
 
 #endif
