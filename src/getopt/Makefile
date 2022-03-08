@@ -9,7 +9,7 @@ getopt.$(STATIC_EXT): getopt.o
 	$(STATIC_CMD) $(STATIC_OUT) $@ $<
 
 getopt.o: getopt.c
-	$(CC) $(CFLAGS) $<
+	$(CC) -I.. $(CFLAGS) $<
 
 test.o: test.c
 	$(CC) -I.. $(CFLAGS) $<
