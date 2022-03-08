@@ -5,22 +5,32 @@
 extern "C" {
 #endif
 
-struct option {
-	char *name;
-	int has_arg;
-	int *flag;
-	int val;
+#define getopt_end -1
+#define getopt_ambiguous -2
+#define getopt_required -3
+
+struct getopt_parser {
+	const char **argv;
+	const char *needle;
+	int index;
+	int state;
 };
 
-int getopt_long(int argc, char **argv, char *optstring, struct option *longopts, int *longindex);
+struct getopt_option {
+	const char *name;
+	int flag;
+	int required;
+};
 
-extern int optopt;
-extern int opterr;
-extern int optreset;
+void getopt_init(struct getopt_parser *parser, const char **argv);
+
+void getopt_reset(struct getopt_parser *parser);
+
+int getopt(struct getopt_parser *parser, const char **value,
+           const struct getopt_option *opts, int length);
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif

@@ -22,6 +22,11 @@ void *malloc(size_t size);
 void *realloc(void *ptr, size_t size);
 void free(void *ptr);
 
+int strncmp(const char *s1, const char *s2, size_t n);
+
 int printf(const char *fmt, ...);
+int fprintf(FILE *file, const char *fmt, ...);
+
+extern FILE *stderr;
 
 #endif
